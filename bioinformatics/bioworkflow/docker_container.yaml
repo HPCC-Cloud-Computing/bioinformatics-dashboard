@@ -1,0 +1,24 @@
+heat_template_version: 2013-05-23
+description: Heat Docker template using software deployments.
+parameters:
+  image:
+    type: string
+    description: Name or ID of the image to use for the Docker server
+  name:
+    type: string
+    description: >
+      Name of the container
+resources:
+  container:
+    type: DockerInc::Docker::Container
+    properties:
+      image: { get_param: image }
+      tty: true
+      name: { get_param: name }
+outputs:
+  instance_ip:
+    description: IP address of the deployed Docker container
+    value: { get_attr: [container, network_ip] }
+  container_info:
+    description: Deployed Docker container's information
+    value: { get_attr: [container, info] }

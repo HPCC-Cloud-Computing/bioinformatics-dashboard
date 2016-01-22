@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Bio Workflow" %}{% endblock %}
+{% block page_header %}
+      {% include "horizon/common/_page_header.html" with title=_("Bio Workflow") %}
+{% endblock page_header %}
+{% block main %}
+      <style type="text/css">
+            .float-left{float: left;}
+            .float-right{float: right;}
+            .unfloat{clear:both;}
+            .chart-tool{display: inline-block; vertical-align: top; padding: 5px; width:20%; float:left}
+            .chart-tool #bioPalette{border: solid 1px gray; height: 500px}
+            .chart-area{display: inline-block; vertical-align: top; padding: 5px; width:80%; float:left}
+            .chart-area #bioDiagram{border: solid 1px gray; height: 500px}
+            .chart-properties{padding: 5px}
+      </style>
+      <script type="text/javascript">
+      $(document).ready(function() {
+      var csrftoken = "{% csrf_token %}";
+      init();
+      });
+      </script>
+      <span class="chart-tool">
+            <div id="bioPalette"></div>
+      </span>
+      <span class="chart-area">
+            <div id="bioDiagram"></div>
+      </span>
+      <div class="unfloat"></div>
+      <div class="chart-properties">
+            <div class="col-sm-12" id="propertiesPanel" style="display: none; background-color: aliceblue; border: solid 1px black; padding:10px">
+                  <div><span><b>Properties</b></span></div>
+                  <div class="col-sm-12">
+                        <label class="col-sm-2">Name: </label>
+                        <input class="col-sm-6" id="node-name" type="text"/>
+                  </div>
+                  <div class="col-sm-12">
+                        <label class="col-sm-2">Describe:</label>
+                        <input class="col-sm-6" id="node-desc" type="text"/>
+                  </div>
+                  <div class="col-sm-12">
+                        <label class="col-sm-2">Image: </label>
+                        <select class="col-sm-6" id="node-image" style="float:left">
+                              <option value="none" selected>--Select Image--</option>
+                              <option value='{"image_name":"techbk/bio-wrapper:blastn-0.0.1"}'>BLASTN-0.0.1</option>
+                              <option value='{"image_name":"techbk/bio-wrapper:clustalw-0.0.3"}'>CLUSTALW-0.0.3</option>
+                              <option value='{"image_name":"techbk/bio-wrapper:clustalw-0.0.2"}'>CLUSTALW-0.0.2</option>
+                        </select>
+                  </div>
+                  <div class="col-sm-12">
+                        <label class="col-sm-2">Command: </label>
+                        <textarea class="col-sm-6" id="node-command" rows="2" cols="80" onchange="commandParsing(this.value)"></textarea>
+                  </div>
+                  <div class="col-sm-12" id="node-input" style="display:none">
+                        <label class="col-sm-2">Input:</label>
+                        <div class="col-sm-12" id="var_input_div">
+                              <label id="var_name"></label>
+                              <input id="var_value" type="text"/>
+                        </div>
+                        
+                        <div class="col-sm-12">
+                              <label>Swift Container Input Name: </label>
+                              <input id="container_name_input" type="text"/>
+                        </div>
+                  </div>
+                  <!--                   <div class="col-sm-12" id="node-output">
+                        <label>Output:</label>
+                        <div class="col-sm-12">
+                              <label>Swift Container Output Name</label>
+                              <input id="container_name_output" type="text"/>
+                        </div>
+                        <div class="col-sm-12">
+                              <label>Swift Object Output Name: </label>
+                              <input id="object_name_output" type="text"/>
+                        </div>
+                  </div> -->
+                  <div class="col-sm-12"><button id="savepropertiesButton" onclick="updateData()">Save Properties</button></div>
+            </div>
+      </div>
+      <div class="pull-right">
+            <hr>
+            <button id="saveButton" onclick="save()" type="button" class="btn btn-default">Save</button>
+            <button onclick="load()" type="button" class="btn btn-primary">Load</button>
+            <hr>
+      </div>
+      <textarea id="savedModel" style="width:100%;height:300px">
+      { "class": "go.GraphLinksModel",
+      "linkFromPortIdProperty": "fromPort",
+      "linkToPortIdProperty": "toPort",
+      "nodeDataArray": [
+      ],
+      "linkDataArray": [
+      ]}
+      </textarea>
+      <div class="pull-right">
+            <hr>
+            <button id="exportButton" type="button" class="btn btn-success active">1.EXPORT</button>
+            <div  id="exportAlert" class="alert alert-success alert-dismissable" style="display:none; position: fixed; top: 5em; right: 0em;">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  Export Success
+            </div>
+            <button id="runButton" type="button" class="btn btn-info active">2.RUN</button>
+            <div  id="runAlert" class="alert alert-info alert-dismissable" style="display:none; position: fixed; top: 5em; right: 0em;">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  Please waiting for 20 seconds... Creating Container...
+            </div>
+            <hr>
+      </div>
+      <hr>
+</div>
+{% endblock %}
+{% block js %}
+{%  include "bioinformatics/bioworkflow/_scripts2.html" %}
+{% endblock %}
