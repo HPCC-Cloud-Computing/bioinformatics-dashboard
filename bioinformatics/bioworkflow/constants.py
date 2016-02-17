@@ -23,5 +23,5 @@ MISTRAL_TEMPLATE_PATH = "/usr/share/openstack-dashboard/openstack_dashboard/dash
 USER = 'admin'
 KEY = 'vandai123'
 TENANT = 'admin'
-AUTHURL = 'http://192.168.100.11:35357/v3'
-AUTHURL = 'http://192.168.100.11:5000/v2.0/'
+#AUTHURL = 'http://192.168.100.11:35357/v3'
+AUTHURL = 'http://192.168.50.15:5000/v2.0/'
