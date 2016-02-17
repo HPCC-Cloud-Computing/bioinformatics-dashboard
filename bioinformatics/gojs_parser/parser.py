@@ -31,7 +31,8 @@ class Parser(object):
         node_datas = self.read_json()["nodeDataArray"]
         for i in range(0, len(node_datas)):
             if node_datas[i]["input"]["container_name_input"].strip() != '':
-                container_name_input = node_datas[i]["input"]["container_name_input"].strip()
+                container_name_input = node_datas[i][
+                    "input"]["container_name_input"].strip()
             else:
                 container_name_input = None
             node = gojsnode.GoJsNode(

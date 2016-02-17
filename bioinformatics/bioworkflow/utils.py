@@ -25,13 +25,12 @@ from openstack_dashboard import api
 from openstack_dashboard.dashboards.bioinformatics.gojs_parser \
     import parser as node_parser
 from openstack_dashboard.dashboards.bioinformatics.bioworkflow import constants
-from openstack_dashboard.dashboards.bioinformatics.bioworkflow \
-    import workflow as wf
 
 from openstack_dashboard.dashboards.bioinformatics.bioworkflow \
     import workflow_manager as wfm
 
 LOG = logging.getLogger(__name__)
+
 
 def run_containers(request):
     template_url = constants.HEAT_TEMPLATE_URL
@@ -74,15 +73,17 @@ def run_containers(request):
     else:
         messages.error(request, _("gojs_node is None"))
     save_obj(gojs_nodes)
-"""
-def run_containers(request):
-    #this is function load gojs_nodes is saved and run containers
-    gojs_nodes = load_obj()
-    if len(gojs_nodes) > 0:
-        processing(gojs_nodes, request)
-    else:
-        messages.error(request, _("None gojs_node"))
-"""
+# """
+# def run_containers(request):
+#     #this is function load gojs_nodes is saved and run containers
+#     gojs_nodes = load_obj()
+#     if len(gojs_nodes) > 0:
+#         processing(gojs_nodes, request)
+#     else:
+#         messages.error(request, _("None gojs_node"))
+# """
+
+
 
 def get_stack(request, stack_id):
     try:
@@ -107,9 +108,11 @@ def save_obj(obj):
     with open(constants.PICKLE_PATH, 'wb') as handle:
         pickle.dump(obj, handle)
 
+
 def load_obj():
     with open(constants.PICKLE_PATH, 'rb') as f:
         return pickle.Unpickler(f).load()
+
 
 def processing(gojs_nodes, request):
     """ processing with gojs_nodes
@@ -123,4 +126,5 @@ def processing(gojs_nodes, request):
         manager.list_tasks[node.key] = new_task
     messages.success(request, _("Processing..."))
     manager.processing(request)
-    messages.success(request, _("Run complete {} tasks".format(len(gojs_nodes))))
+    messages.success(
+        request, _("Run complete {} tasks".format(len(gojs_nodes))))
