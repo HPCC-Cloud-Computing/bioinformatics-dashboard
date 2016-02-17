@@ -21,6 +21,7 @@ PICKLE_PATH = os.path.join(DIRNAME, 'pickle/gojsnode.pickle')
 MISTRAL_TEMPLATE_PATH = "/usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/gojs_parser/file_name"
 
 USER = 'admin'
-KEY = 'bkcloud15@123'
+KEY = 'vandai123'
 TENANT = 'admin'
-AUTHURL = 'http://192.168.50.15:35357/v3'
+AUTHURL = 'http://192.168.100.11:35357/v3'
+AUTHURL = 'http://192.168.100.11:5000/v2.0/'

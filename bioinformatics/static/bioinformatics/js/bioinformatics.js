@@ -574,8 +574,8 @@ function updateProperties(data) {
         document.getElementById("node-desc").value = "";
         // document.getElementById("var_name").value = "";
         // document.getElementById("var_value").value = "";
-        document.getElementById("container_name_output").value = "";
-        document.getElementById("object_name_output").value = "";
+        // document.getElementById("container_name_output").value = "";
+        // document.getElementById("object_name_output").value = "";
     } else {
         document.getElementById("propertiesPanel").style.display = "block";
         document.getElementById("node-name").value = data.name || "";
@@ -588,16 +588,46 @@ function updateProperties(data) {
         }
         document.getElementById("node-command").value = data.command || "";
         document.getElementById("node-desc").value = data.desc || "";
-        if (data.input.var_name_input != "") {
-            // document.getElementById("var_name").value = data.input.var_name_input;
-            // document.getElementById("var_value").value = data.input.var_value_input || "";
-        } else {
+
+
+        console.log(data.input.hasOwnProperty("var_input"));
+        if(!data.input.hasOwnProperty("var_input")) {
+            $('#var_input_div').html("");
             $('#var_input_div').removeClass('css');
-            $('#var_input_div').css("display", "none");
+            $('#var_input_div').css("display", "none");        
+        } else {
+            var i = 0;
+            $.each(data.input.var_input, function(key, value){
+                $.each(value, function(key, value){
+                    console.log(key, value);
+                    $('#var_input_div').css("display", "block");
+                    $('#var_input_div').append('<div class="var_input_element"><label id="var_name_'+i+'">'+key+'</label><input id="var_value_'+i+'" type="text"/></div>');
+                    console.log('var_value_'+i);
+                    document.getElementById('var_value_'+i).value = value || "";
+                    $('#node-input').removeClass('css');
+                    $('#node-input').css("display", "block");
+                });
+                i++;           
+            });
         }
+
+        // if (data.input.var_input.length > 0) {
+        //     $.each(data.input.var_input, function(key, value){
+        //             console.log(key, value);
+        //     });
+        //     for (var i = 0; i < data.input.var_input.length; i++) {
+        //         $('#var_input_div').css("display", "block");
+        //         $('#var_input_div').append('<div class="var_input_element"><label id="'+data.input.var_input[i].var_name_input+'">'+data.input.var_input[i]+'</label><input id="var_value_'+i+'" type="text"/></div>')
+        //         $('#node-output').css("display", "block");            
+        //     };   
+        // }else{
+        //     $('#var_input_div').html("");
+        //     $('#var_input_div').removeClass('css');
+        //     $('#var_input_div').css("display", "none");        
+
         document.getElementById("container_name_input").value = data.input.container_name_input || "";
-        document.getElementById("container_name_output").value = data.output.container_name_output || "";
-        document.getElementById("object_name_output").value = data.output.object_name_output || "";
+        // document.getElementById("container_name_output").value = data.output.container_name_output || "";
+        // document.getElementById("object_name_output").value = data.output.object_name_output || "";
     }
 }
 
@@ -643,16 +673,29 @@ function updateData() {
         model.commitTransaction("modified " + "command");
 
         model.startTransaction("modified " + "input");
-        console.log($('#var_name').text());
-        model.setDataProperty(data, "input", JSON.parse('{"var_name_input":"' + $('#var_name').text() + '","var_value_input":"' + $('#var_value').val() + '","container_name_input":"' + $('#container_name_input').val() + '"}'));
+        
+        var input = {};
+        var array_var_list = []
+        var var_list = $('#var_input_div .var_input_element');
+        if (var_list.length > 0) {
+            for (var i = 0; i < var_list.length; i++) {
+                var var_obj = JSON.parse('{"'+var_list.eq(i).find("label").text()+'":"'+var_list.eq(i).find("input").val()+'"}');
+                console.log(var_obj);
+                array_var_list.push(var_obj);
+                input.var_input = array_var_list;
+            };            
+        };
+        input.container_name_input = $('#container_name_input').val();
+        console.log(input); 
+        model.setDataProperty(data, "input", input);
         console.log(data.input);
         model.commitTransaction("modified " + "input");
 
-        model.startTransaction("modified " + "output");
-        console.log(data.output);
-        model.setDataProperty(data, "output", JSON.parse('{"container_name_output":"' + $('#container_name_output').val() + '","object_name_output":"' + $('#object_name_output').val() + '"}'));
-        console.log(data.output);
-        model.commitTransaction("modified " + "output");
+        // model.startTransaction("modified " + "output");
+        // console.log(data.output);
+        // model.setDataProperty(data, "output", JSON.parse('{"container_name_output":"' + $('#container_name_output').val() + '","object_name_output":"' + $('#object_name_output').val() + '"}'));
+        // console.log(data.output);
+        // model.commitTransaction("modified " + "output");
     }
 }
 
@@ -683,6 +726,7 @@ function save() {
     saveDiagramProperties(); // do this first, before writing to JSON
     document.getElementById("savedModel").value = bioDiagram.model.toJson();
     bioDiagram.isModified = false;
+    // console.log($('#var_input_div .var_input_element').length);
 }
 
 function load() {
@@ -705,7 +749,7 @@ function commandParsing(text) {
     var pos_start, pos_end;
     file_name_list = [];
     for (var i = 0; i < text.length; i++) {
-        if (text[i] == "{") {
+        if(text[i] == "{"){
             pos_start = i;
         }
         if (text[i] == "}") {
@@ -716,18 +760,22 @@ function commandParsing(text) {
     };
 
     if (file_name_list.length > 0) {
+        $('#node-input').css("display", "block");
         for (var i = 0; i < file_name_list.length; i++) {
             console.log(file_name_list[i]);
             $('#var_input_div').css("display", "block");
-            $('#var_input_div').append('<label id="var_name_' + i + '">' + file_name_list[i] + '</label><input id="var_value_' + i + '" type="text"/><br/>')
-            $('#node-output').css("display", "block");
-        };
+            $('#var_input_div').append('<div class="var_input_element col-sm-12"><label class="col-sm-2" id="var_name_'+i+'">'+file_name_list[i]+'</label><input class="col-sm-6" id="var_value_'+i+'" type="text"/></div>')           
+        };   
+    }else{
+        $('#var_input_div').html("");
+        $('#var_input_div').removeClass('css');
+        $('#var_input_div').css("display", "none");        
     };
 
 
     // if (pos_start != -1) {
     //     pos_end = text.indexOf(")s");
-
+        
     //     console.log(var_name);
 
     // } else {

@@ -1,0 +1,37 @@
+{
+  "version": "2.0", 
+  "template_workflow": {
+    "output": {
+      "out_clustalw-0.0.3": "<% $.clustalw-0.0.3 %>", 
+      "out_clustalw-0.0.2": "<% $.clustalw-0.0.2 %>", 
+      "out_blast-0.0.1": "<% $.blast-0.0.1 %>"
+    }, 
+    "tasks": {
+      "clustalw-0.0.2": {
+        "action": "std.http url='http://None/runtask/' method='GET' user=admin key=vandai123 tenant=admin authurl=http://192.168.100.11:35357/v3 cm = 'clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input' input_file = 'incon3/in03|' output_file = 'out3'", 
+        "publish": {
+          "clustalw-0.0.2": "<% $.clustalw-0.0.2 %>'"
+        }
+      }, 
+      "clustalw-0.0.3": {
+        "action": "std.http url='http://172.17.0.96/runtask/' method='GET' user=admin key=vandai123 tenant=admin authurl=http://192.168.100.11:35357/v3 cm = 'clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input clustalw -infile=47.1.data.fasta -type=protein -matrix=pam -outfile=aa.align.out -outorder=input' input_file = 'incon2/in02|' output_file = 'out2'", 
+        "publish": {
+          "clustalw-0.0.3": "<% $.clustalw-0.0.3 %>'"
+        }, 
+        "on-success": [
+          "clustalw-0.0.2"
+        ]
+      }, 
+      "blast-0.0.1": {
+        "action": "std.http url='http://172.17.0.95/runtask/' method='GET' user=admin key=vandai123 tenant=admin authurl=http://192.168.100.11:35357/v3 cm = 'clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input\nclustalw -infile=47.1.data.fasta -type=protein -matrix=pam -outfile=aa.align.out -outorder=input' input_file = 'incon1/in01|' output_file = 'out1'", 
+        "publish": {
+          "blast-0.0.1": "<% $.blast-0.0.1 %>'"
+        }, 
+        "on-success": [
+          "clustalw-0.0.3"
+        ]
+      }
+    }, 
+    "type": "direct"
+  }
+}

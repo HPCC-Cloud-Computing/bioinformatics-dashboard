@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-
+import json
 import requests
 import logging
 import pickle
@@ -28,15 +28,17 @@ from openstack_dashboard.dashboards.bioinformatics.bioworkflow import constants
 from openstack_dashboard.dashboards.bioinformatics.bioworkflow \
     import workflow as wf
 
-LOG = logging.getLogger(__name__)
+from openstack_dashboard.dashboards.bioinformatics.bioworkflow \
+    import workflow_manager as wfm
 
+LOG = logging.getLogger(__name__)
 
 def run_containers(request):
     template_url = constants.HEAT_TEMPLATE_URL
     parser = node_parser.Parser()
     gojs_nodes = parser.get_nodes()
     for gojs_node in gojs_nodes:
-        stack_name = "stack" + str(randint(0, 100))
+        stack_name = "stack" + str(randint(0, 10000))
         param = {
             'image': gojs_node.get_image_name(),
             'name': gojs_node.get_docker_container_name()
@@ -67,13 +69,20 @@ def run_containers(request):
                     break
         except Exception:
             exceptions.handle(request)
-    wf.processing(gojs_nodes, request)
-    #if len(gojs_nodes) > 0:
-    #    processing(gojs_nodes, request)
-    #else:
-    #    messages.error(request, _("None gojs_node"))
+    if len(gojs_nodes) > 0:
+        processing(gojs_nodes, request)
+    else:
+        messages.error(request, _("gojs_node is None"))
     save_obj(gojs_nodes)
-
+"""
+def run_containers(request):
+    #this is function load gojs_nodes is saved and run containers
+    gojs_nodes = load_obj()
+    if len(gojs_nodes) > 0:
+        processing(gojs_nodes, request)
+    else:
+        messages.error(request, _("None gojs_node"))
+"""
 
 def get_stack(request, stack_id):
     try:
@@ -98,12 +107,20 @@ def save_obj(obj):
     with open(constants.PICKLE_PATH, 'wb') as handle:
         pickle.dump(obj, handle)
 
+def load_obj():
+    with open(constants.PICKLE_PATH, 'rb') as f:
+        return pickle.Unpickler(f).load()
 
 def processing(gojs_nodes, request):
-    manager = wf.WorkflowManager("workflow1")
+    """ processing with gojs_nodes
+    step 1: create a WorkflowManager with name
+    step 2: forloop gojs_nodes, convert each GoJsNode to NewTask and add list_tasks
+    step 3: processing WorkflowManager
+    """
+    manager = wfm.WorkflowManager("workflow1")
     for node in gojs_nodes:
-        new_stack = wf.NewTask(node)
-        manager.list_tasks[node.key] = new_stack
-    messages.success(request, _("run processing"))
+        new_task = wfm.NewTask(node)
+        manager.list_tasks[node.key] = new_task
+    messages.success(request, _("Processing..."))
     manager.processing(request)
-    messages.success(request, _("DONE {}".format(len(gojs_nodes))))
+    messages.success(request, _("Run complete {} tasks".format(len(gojs_nodes))))
