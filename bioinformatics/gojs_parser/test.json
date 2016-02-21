@@ -1,11 +1,7 @@
 { "class": "go.GraphLinksModel",
-  "modelData": {"position":"-5 -5"},
+  "modelData": {"position":"49 -23"},
   "nodeDataArray": [ 
-{"name":"blast-0.0.1", "desc":"This is blast 0.0.1 tool", "image":{"image_name":"techbk/bio-wrapper:blastn-0.0.1"}, "input":{"var_input":[ {"input_file[0]":"in01"},{"output_file":"out1"} ], "container_name_input":"incon1"}, "output":"", "command":"clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input\nclustalw -infile=47.1.data.fasta -type=protein -matrix=pam -outfile=aa.align.out -outorder=input", "category":"simple", "key":-2, "loc":"310 80"},
-{"name":"clustalw-0.0.3", "desc":"this is clustal 0.0.3 tool", "image":{"image_name":"techbk/bio-wrapper:clustalw-0.0.3"}, "input":{"var_input":[ {"input_file[0]":"in02"},{"output_file":"out2"} ], "container_name_input":"incon2"}, "output":"", "command":"clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input clustalw -infile=47.1.data.fasta -type=protein -matrix=pam -outfile=aa.align.out -outorder=input", "category":"simple", "key":-3, "loc":"270 180"},
-{"name":"clustalw-0.0.2", "desc":"this is clustalw-0.0.2", "image":{"image_name":"techbk/bio-wrapper:clustalw-0.0.2"}, "input":{"var_input":[ {"input_file[0]":"in03"},{"output_file":"out3"} ], "container_name_input":"incon3"}, "output":"", "command":"clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input", "category":"simple", "key":-4, "loc":"260 320"}
+{"name":"A", "desc":"", "image":{"image_name":"techbk/bio-wrapper:clustalw-0.0.3"}, "input":{"var_input":[ {"input_file[0]":"test.fasta"},{"output_file":"clustalw/output.fasta"} ], "container_name_input":"clustalw"}, "output":"", "command":"clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input", "category":"simple", "key":-2, "loc":"280 130"},
+{"name":"B", "desc":"", "image":{"image_name":"techbk/bio-wrapper:clustalw-0.0.3"}, "input":{"var_input":[ {"input_file[0]":"test.fasta"},{"output_file":"clustalw/outputxxx.fasta"} ], "container_name_input":"clustalw"}, "output":"", "command":"clustalw -infile={input_file[0]} -type=protein -matrix=pam -outfile={output_file} -outorder=input", "category":"simple", "key":-3, "loc":"250 230"}
  ],
-  "linkDataArray": [ 
-{"from":-2, "to":-3, "points":[306.119288125423,96.31641286334651,306.119288125423,106.31641286334651,306.119288125423,133.88071187457697,266.119288125423,133.88071187457697,266.119288125423,161.44501088580745,266.119288125423,171.44501088580745]},
-{"from":-3, "to":-4, "points":[266.119288125423,196.3164128633465,266.119288125423,206.3164128633465,266.119288125423,253.88071187457697,256.119288125423,253.88071187457697,256.119288125423,301.44501088580745,256.119288125423,311.44501088580745]}
- ]}
+  "linkDataArray": [ {"points":[276.119288125423,146.31641286334653,276.119288125423,156.31641286334653,276.119288125423,183.880711874577,246.11928812542303,183.880711874577,246.11928812542303,211.44501088580745,246.11928812542303,221.44501088580745], "from":-2, "to":-3} ]}

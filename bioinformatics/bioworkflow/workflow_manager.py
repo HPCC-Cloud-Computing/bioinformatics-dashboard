@@ -1,7 +1,7 @@
 import requests
-from horizon import messages
-from django.utils.translation import ugettext_lazy as _
-import json
+# from horizon import messages
+# from django.utils.translation import ugettext_lazy as _
+# import json
 from openstack_dashboard.dashboards.bioinformatics.bioworkflow import constants
 
 # user = 'admin'
