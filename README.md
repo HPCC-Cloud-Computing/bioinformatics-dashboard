@@ -2,6 +2,7 @@
 
 ## Prerequisites & Requirements ##
 
+* Ubuntu Server 14.04 LTS
 * OpenStack Kilo with Nova, Neutron, Swift, Heat with Docker Resource([Install Guide](https://www.evernote.com/shard/s520/sh/548c014f-25b2-4506-9f34-32731a071682/be4509f657ff26f168b147570993e48c))
 * Docker engine version <= 1.7.x with docker api version <= 1.19.
   
