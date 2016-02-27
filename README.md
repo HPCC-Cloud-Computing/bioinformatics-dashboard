@@ -1,21 +1,28 @@
 # Bio Informatics Dashboard
 
-1. Cài đặt trực tiếp trên hệ thống hpcc/bkcloud15:
-    * Sử dụng SFTP, để chỉnh sửa & upload lên trực tiếp lên hpcc/bkcloud15.
-    * Mỗi lần chỉnh sửa cần upload lên hpcc/bkcloud15 và push lên repository này.
+## Prerequisites & Requirements ##
 
-2. Cài đặt trên máy ảo / máy tính cá nhân đã được cài đặt Openstack Kilo.
-    * Clone Repository này về.
-    * Copy folder bioinformatics vào thư mục /usr/share/openstack-dashboard/openstack_dashboard/dashboards.
+* OpenStack Kilo with Nova, Neutron, Swift, Heat with Docker Resource([Install Guide](https://www.evernote.com/shard/s520/sh/548c014f-25b2-4506-9f34-32731a071682/be4509f657ff26f168b147570993e48c))
+* Docker engine version <= 1.7.x with docker api version <= 1.19.
+  ```
+  sudo apt-get install docker-engine=1.7.1-0~trusty
+  ```
+
+## Setup Instructions ##
+
+1. Clone the repository into your local OpenStack directory:
+    ```
+    git clone https://github.com/cloudcomputinghust/bioinformatics-dashboard.git
+    ```
+2. Copy bioinformatics folder to /usr/share/openstack-dashboard/openstack_dashboard/dashboards
     ```
     cp bioinformatics /usr/share/openstack-dashboard/openstack_dashboard/dashboards
     ```
-    * Tạo link đến thư mục /usr/share/openstack-dashboard/static/bioinformatics
+3. Create link to /usr/share/openstack-dashboard/static/bioinformatics
     ```
     ln -s /usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/static/bioinformatics/ /usr/share/openstack-dashboard/static/bioinformatics/
     ```
-    * Copy file _50_bioinformatics.py đến thư mục /usr/share/openstack-dashboard/openstack_dashboard/enabled/
+4. Copy file _50_bioinformatics.py to /usr/share/openstack-dashboard/openstack_dashboard/enabled/
     ```
     cp _50_bioinformatics.py /usr/share/openstack-dashboard/openstack_dashboard/enabled/
-    ```
 
