@@ -26,7 +26,8 @@
 3. Create link to /usr/share/openstack-dashboard/static/bioinformatics
     
     ```
-    ln -s /usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/static/bioinformatics/ /usr/share/openstack-dashboard/static/bioinformatics/
+    ln -s /usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/static/bioinformatics/ \ 
+    /usr/share/openstack-dashboard/static/bioinformatics/
     ```
 
 4. Copy file _50_bioinformatics.py to /usr/share/openstack-dashboard/openstack_dashboard/enabled/
