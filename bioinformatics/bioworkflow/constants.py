@@ -16,7 +16,7 @@ from django.conf import settings as djangoSettings
 DIRNAME = os.path.dirname(__file__)
 # JSON_PATH = "/usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/gojs_parser/test.json"
 JSON_PATH = djangoSettings.STATIC_ROOT + "/outfile.json"
-HEAT_TEMPLATE_URL = "https://raw.githubusercontent.com/cloudcomputinghust/bio-informatics/master/kiennt/PhatTrien/bioinformatics/bioworkflow/docker_container.yaml"
+HEAT_TEMPLATE_URL = "https://raw.githubusercontent.com/cloudcomputinghust/bioinformatics-dashboard/master/bioinformatics/bioworkflow/docker_container.yaml"
 PICKLE_PATH = os.path.join(DIRNAME, 'pickle/gojsnode.pickle')
 MISTRAL_TEMPLATE_PATH = "/usr/share/openstack-dashboard/openstack_dashboard/dashboards/bioinformatics/gojs_parser/file_name"
 
