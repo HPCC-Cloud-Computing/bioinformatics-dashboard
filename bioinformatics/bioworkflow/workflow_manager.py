@@ -37,7 +37,9 @@ class NewTask(object):
         self.input_url = self.input_url.split("|")[0]
         payload = {'user': '{}'.format(constants.USER), 'key': '{}'.format(constants.KEY), 'tenant': '{}'.format(constants.TENANT), 'authurl': '{}'.format(constants.AUTHURL),
                    'cm': '{}'.format(self.command), 'input_file': '{}'.format(self.input_url), 'output_file': '{}'.format(self.output_url)}
-        self.result = requests.post(
+        import time
+	time.sleep(3)	
+	self.result = requests.post(
             'http://{}:8080/runtask/'.format(self.container_ip), data=payload)
 
     def get_status(self):
