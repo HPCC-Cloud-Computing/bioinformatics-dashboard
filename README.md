@@ -21,7 +21,7 @@
 2. Copy bioinformatics folder to /usr/share/openstack-dashboard/openstack_dashboard/dashboards
 
     ```
-    cp bioinformatics /usr/share/openstack-dashboard/openstack_dashboard/dashboards
+    cp -r bioinformatics /usr/share/openstack-dashboard/openstack_dashboard/dashboards
     ```
 
 3. Create link to /usr/share/openstack-dashboard/static/bioinformatics
